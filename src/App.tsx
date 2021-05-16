@@ -4,7 +4,7 @@ import { ToastContainer } from 'react-toastify';
 
 import Routes from './routes';
 import GlobalStyles from './styles/global';
-import Header from './components/Header';
+import { Header } from './components/Header';
 import { CartProvider } from './hooks/useCart';
 
 const App = (): JSX.Element => {
