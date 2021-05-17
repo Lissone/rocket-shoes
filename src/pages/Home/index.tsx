@@ -1,67 +1,91 @@
-import React, { useState, useEffect } from 'react';
-import { MdAddShoppingCart } from 'react-icons/md';
+import { useState, useEffect } from 'react'
+import { MdAddShoppingCart } from 'react-icons/md'
+// import { IoMdAlert } from 'react-icons/io'
 
-import { ProductList } from './styles';
-import { api } from '../../services/api';
-import { formatPrice } from '../../util/format';
-import { useCart } from '../../hooks/useCart';
+import { api } from '../../services/api'
+import { formatPrice } from '../../util/format'
+import { useCart } from '../../hooks/useCart'
+
+import { ProductList } from './styles'
 
 interface Product {
-  id: number;
-  title: string;
-  price: number;
-  image: string;
+  id: number
+  title: string
+  price: number
+  image: string
 }
 
 interface ProductFormatted extends Product {
-  priceFormatted: string;
+  priceFormatted: string
+  inStockAmount: number
 }
 
-interface CartItemsAmount {
-  [key: number]: number;
+interface StockProduct {
+  id: number
+  amount: number
 }
 
-const Home = (): JSX.Element => {
-  // const [products, setProducts] = useState<ProductFormatted[]>([]);
-  // const { addProduct, cart } = useCart();
-
-  // const cartItemsAmount = cart.reduce((sumAmount, product) => {
-  //   // TODO
-  // }, {} as CartItemsAmount)
+export const Home = (): JSX.Element => {
+  const [products, setProducts] = useState<ProductFormatted[]>([])
+  const [stockProducts, setStockProducts] = useState<StockProduct[]>([])
+  const { addProduct } = useCart()
 
   useEffect(() => {
-    async function loadProducts() {
-      // TODO
+    async function loadProductsAmountInStock() {
+      await api.get<StockProduct[]>('stock')
+        .then(response => {
+          setStockProducts(response.data)
+        })
     }
 
-    loadProducts();
-  }, []);
+    async function loadProducts() {
+      const response = await api.get<Product[]>('products')
+
+      const products = response.data.map(product => ({
+        ...product,
+        priceFormatted: formatPrice(product.price),
+        inStockAmount: stockProducts[product.id-1]?.amount || 0
+      }))
+
+      setProducts(products)
+    }
+
+    loadProductsAmountInStock()
+    loadProducts()
+  }, [])
+
+
 
   function handleAddProduct(id: number) {
-    // TODO
+    addProduct(id)
   }
 
   return (
     <ProductList>
-      <li>
-        <img src="https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/modulo-redux/tenis1.jpg" alt="Tênis de Caminhada Leve Confortável" />
-        <strong>Tênis de Caminhada Leve Confortável</strong>
-        <span>R$ 179,90</span>
-        <button
-          type="button"
-          data-testid="add-product-button"
-        // onClick={() => handleAddProduct(product.id)}
-        >
-          <div data-testid="cart-product-quantity">
-            <MdAddShoppingCart size={16} color="#FFF" />
-            {/* {cartItemsAmount[product.id] || 0} */} 2
-          </div>
+      {products.map(product => {
+        return (
+          <li key={product.id}>
+            <img src={product.image} alt={product.title} />
+            <strong>{product.title}</strong>
+            <span>{product.priceFormatted}</span>
+            <button
+              type="button"
+              data-testid="add-product-button"
+              disabled={product.inStockAmount === 0}
+              onClick={() => handleAddProduct(product.id)}
+            >
+              <div data-testid="cart-product-quantity">
+                <MdAddShoppingCart size={16} color="#FFF" />
+                {product.inStockAmount}
+              </div>
 
-          <span>ADICIONAR AO CARRINHO</span>
-        </button>
-      </li>
+              <span>
+                {product.inStockAmount > 0 ? 'ADICIONAR AO CARRINHO' : 'PRODUTO INDISPONÍVEL'}
+              </span>
+            </button>
+          </li>
+        )
+      })}
     </ProductList>
-  );
-};
-
-export default Home;
+  )
+}
