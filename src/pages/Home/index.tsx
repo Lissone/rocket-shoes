@@ -5,6 +5,7 @@ import { MdAddShoppingCart } from 'react-icons/md'
 import { api } from '../../services/api'
 import { formatPrice } from '../../util/format'
 import { useCart } from '../../hooks/useCart'
+import { Stock } from '../../types'
 
 import { ProductList } from './styles'
 
@@ -20,37 +21,26 @@ interface ProductFormatted extends Product {
   inStockAmount: number
 }
 
-interface StockProduct {
-  id: number
-  amount: number
-}
-
 export const Home = (): JSX.Element => {
   const [products, setProducts] = useState<ProductFormatted[]>([])
-  const [stockProducts, setStockProducts] = useState<StockProduct[]>([])
   const { addProduct } = useCart()
 
   useEffect(() => {
-    async function loadProductsAmountInStock() {
-      await api.get<StockProduct[]>('stock')
-        .then(response => {
-          setStockProducts(response.data)
-        })
-    }
 
     async function loadProducts() {
+      const stock = await api.get<Stock[]>('stock')
+      
       const response = await api.get<Product[]>('products')
 
       const products = response.data.map(product => ({
         ...product,
         priceFormatted: formatPrice(product.price),
-        inStockAmount: stockProducts[product.id-1]?.amount || 0
+        inStockAmount: stock.data[product.id-1]?.amount || 0
       }))
 
       setProducts(products)
     }
 
-    loadProductsAmountInStock()
     loadProducts()
   }, [])
 
