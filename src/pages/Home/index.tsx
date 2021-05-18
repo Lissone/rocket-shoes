@@ -21,7 +21,7 @@ interface ProductFormatted extends Product {
   inStockAmount: number
 }
 
-export const Home = (): JSX.Element => {
+const Home = (): JSX.Element => {
   const [products, setProducts] = useState<ProductFormatted[]>([])
   const { addProduct } = useCart()
 
@@ -79,3 +79,5 @@ export const Home = (): JSX.Element => {
     </ProductList>
   )
 }
+
+export default Home

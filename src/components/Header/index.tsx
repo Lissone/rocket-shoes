@@ -6,7 +6,7 @@ import { useCart } from '../../hooks/useCart'
 
 import { Container, Cart } from './styles'
 
-export const Header = (): JSX.Element => {
+const Header = (): JSX.Element => {
   const { cart } = useCart()
   
   const cartSize = cart.length
@@ -29,3 +29,5 @@ export const Header = (): JSX.Element => {
     </Container>
   )
 }
+
+export default Header
