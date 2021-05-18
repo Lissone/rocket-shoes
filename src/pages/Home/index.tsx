@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react'
 import { MdAddShoppingCart } from 'react-icons/md'
-// import { IoMdAlert } from 'react-icons/io'
 
 import { api } from '../../services/api'
 import { formatPrice } from '../../util/format'
 import { useCart } from '../../hooks/useCart'
-import { Stock } from '../../types'
 
 import { ProductList } from './styles'
 
@@ -16,26 +14,33 @@ interface Product {
   image: string
 }
 
+interface CartItemAmount {
+  [key: number]: number
+}
+
 interface ProductFormatted extends Product {
   priceFormatted: string
-  inStockAmount: number
 }
 
 const Home = (): JSX.Element => {
   const [products, setProducts] = useState<ProductFormatted[]>([])
-  const { addProduct } = useCart()
+  const { addProduct, cart } = useCart()
+
+  const cartItemsAmount = cart.reduce((sumAmount, product) => {
+    const newSumAmount = {...sumAmount}
+    newSumAmount[product.id] = product.amount
+
+    return newSumAmount
+  }, {} as CartItemAmount)
 
   useEffect(() => {
 
     async function loadProducts() {
-      const stock = await api.get<Stock[]>('stock')
-      
       const response = await api.get<Product[]>('products')
 
       const products = response.data.map(product => ({
         ...product,
-        priceFormatted: formatPrice(product.price),
-        inStockAmount: stock.data[product.id-1]?.amount || 0
+        priceFormatted: formatPrice(product.price)
       }))
 
       setProducts(products)
@@ -61,16 +66,15 @@ const Home = (): JSX.Element => {
             <button
               type="button"
               data-testid="add-product-button"
-              disabled={product.inStockAmount === 0}
               onClick={() => handleAddProduct(product.id)}
             >
               <div data-testid="cart-product-quantity">
                 <MdAddShoppingCart size={16} color="#FFF" />
-                {product.inStockAmount}
+                {cartItemsAmount[product.id] || 0}
               </div>
 
               <span>
-                {product.inStockAmount > 0 ? 'ADICIONAR AO CARRINHO' : 'PRODUTO INDISPONÍVEL'}
+                ADICIONAR AO CARRINHO
               </span>
             </button>
           </li>
