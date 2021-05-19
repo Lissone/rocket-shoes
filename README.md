@@ -6,7 +6,8 @@
   <a href="#descrição">Descrição</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#requerimentos">Requerimentos</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#tecnologias">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#instalando">Dependencias</a>
+  <a href="#instalando">Dependencias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#demonstracao">Demonstração</a>
 </p>
 
 <p align="center">
@@ -37,14 +38,6 @@ Aplicação criada como um desafio para testar o conhecimento sobre organizaçã
 * Toastify
 * JsonServer (Fake api)
 
-**Tela Inicial**
-
-![Home](https://i.imgur.com/NpgqwBJ.png)
-
-**Carrinho**
-
-![Cart](https://i.imgur.com/xfkV6b6.png)
-
 ## Instalando
 
 ```bash
@@ -70,3 +63,12 @@ yarn start
 #or
 npm run start
 ```
+## Demonstracao
+
+**Tela Inicial**
+
+![Home](https://i.imgur.com/NpgqwBJ.png)
+
+**Carrinho**
+
+![Cart](https://i.imgur.com/xfkV6b6.png)
