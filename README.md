@@ -1,5 +1,5 @@
 <h1 align="center">
-  Rocket shoes
+  <img alt="Rocket shoes logo" src="./src/assets/logo.svg" width="350px">
 </h1>
 
 <p align="center">
