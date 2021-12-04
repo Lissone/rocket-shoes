@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img alt="Rocket shoes logo" src="./src/assets/logo.svg" width="350px">
+  <img alt="Rocket shoes logo" src="./src/assets/images/logo.svg" width="350px">
 </h1>
 
 <p align="center">
@@ -40,7 +40,7 @@ Project developed with the objective of improving knowledge about organization i
 - [Npm](https://www.npmjs.com/)
 - [Yarn](https://yarnpkg.com/)
 
-## Tecnologias
+## Technologies
 
 - CRA (Create react app)
 - Typescript
