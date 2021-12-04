@@ -13,7 +13,7 @@
 <p align="center">
   <img src="https://img.shields.io/static/v1?label=license&message=MIT" alt="License">
   <img src="https://img.shields.io/github/repo-size/Lissone/rocket-shoes" alt="Repo size" />
-  <img src="https://img.shields.io/github/languages/top/Lissone/rocket-shoese" alt="Top lang" />
+  <img src="https://img.shields.io/github/languages/top/Lissone/rocket-shoes" alt="Top lang" />
   <img src="https://img.shields.io/github/stars/Lissone/rocket-shoes" alt="Stars repo" />
   <img src="https://img.shields.io/github/forks/Lissone/rocket-shoes" alt="Forks repo" />
   <img src="https://img.shields.io/github/issues-pr/Lissone/rocket-shoes" alt="Pull requests" >
